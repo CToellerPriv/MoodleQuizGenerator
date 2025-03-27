@@ -20,9 +20,11 @@ namespace Lernmaschine
         {
             WebClient webClient = new WebClient();
             var client= new WebClient();
-            if (!webClient.DownloadString("https://github.com/CToellerPriv/MoodleQuizGenerator/blob/dev/Lernmaschine/Update.txt").Contains("1.0.0.1"))
+            MessageBox.Show("Checking for updates");
+            if (!webClient.DownloadString("https://github.com/CToellerPriv/MoodleQuizGenerator/blob/dev/Lernmaschine/Update.txt").Contains("1.0.2"))
             {
-                if(MessageBox.Show("New Update available! Do you want to install ist?","Lernmaschine",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
+                
+                if (MessageBox.Show("New Update available! Do you want to install ist?","Lernmaschine",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
                 { 
                     try
                     {
@@ -43,6 +45,10 @@ namespace Lernmaschine
                         }
                     }
                     catch { }
+                }
+                else
+                {
+                    MessageBox.Show("Lernmaschine is uptodate!");
                 }
             }
 
