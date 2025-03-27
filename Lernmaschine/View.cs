@@ -21,28 +21,29 @@ namespace Lernmaschine
             WebClient webClient = new WebClient();
             var client= new WebClient();
             MessageBox.Show("Checking for updates");
-            if (!webClient.DownloadString("https://github.com/CToellerPriv/MoodleQuizGenerator/blob/dev/Lernmaschine/Update.txt").Contains("1.0.2"))
+            if (!webClient.DownloadString("https://github.com/CToellerPriv/MoodleQuizGenerator/blob/dev/Lernmaschine/Update.txt").Contains("1.0.3"))
             {
                 
                 if (MessageBox.Show("New Update available! Do you want to install ist?","Lernmaschine",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
                 { 
                     try
                     {
-                        if(File.Exists(@".\SetupLernmaschine.msi"))
+                        if (File.Exists(@".\SetupLernmaschine.msi"))
                         {
                             File.Delete(@".\SetupLernmaschine.msi");
-                            client.DownloadFile("https://github.com/CToellerPriv/MoodleQuizGenerator/blob/dev/Lernmaschine/SetupLernmaschine.zip",@"SetupLernmaschine.zip");
-                            string zipPath = @".\SetupLernmaschine.zip";
-                            string extractPath = @".\";
-                            ZipFile.ExtractToDirectory(zipPath, extractPath);
-
-                            Process process = new Process();
-
-                            process.StartInfo.FileName = "msiexec";
-                            process.StartInfo.Arguments = String.Format("/i SetupLernmaschine.msi");
-                            this.Close();
-                            process.Start();
                         }
+                        client.DownloadFile("https://github.com/CToellerPriv/MoodleQuizGenerator/blob/dev/Lernmaschine/SetupLernmaschine.zip",@"SetupLernmaschine.zip");
+                        string zipPath = @".\SetupLernmaschine.zip";
+                        string extractPath = @".\";
+                        ZipFile.ExtractToDirectory(zipPath, extractPath);
+
+                        Process process = new Process();
+
+                        process.StartInfo.FileName = "msiexec";
+                        process.StartInfo.Arguments = String.Format("/i SetupLernmaschine.msi");
+                        this.Close();
+                        process.Start();
+                        
                     }
                     catch { }
                 }

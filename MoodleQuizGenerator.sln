@@ -13,11 +13,6 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupMQGGUI", "SetupMQGGUI\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lernmaschine", "Lernmaschine\Lernmaschine.csproj", "{1838CFE7-1F70-4999-94E1-69A766B0B082}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deploy", "Deploy", "{EE848F8D-B6F0-4ED0-A6D2-2DA1C8000282}"
-	ProjectSection(SolutionItems) = preProject
-		Version.txt = Version.txt
-	EndProjectSection
-EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupLernmaschine", "SetupLernmaschine\SetupLernmaschine.vdproj", "{EEF82983-D6D8-46C7-83F6-0CBF0CF284B3}"
 EndProject
 Global
