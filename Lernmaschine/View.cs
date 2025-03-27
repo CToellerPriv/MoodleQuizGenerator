@@ -1,4 +1,7 @@
 using System.Diagnostics;
+using System.IO;
+using System.IO.Compression;
+using System.Net;
 
 namespace Lernmaschine
 {
@@ -7,8 +10,44 @@ namespace Lernmaschine
         public View()
         {
             InitializeComponent();
+
+            checkAutoUpdate();
+
             radioButtonEditieren.Checked = true;
         }
+
+        private void checkAutoUpdate()
+        {
+            WebClient webClient = new WebClient();
+            var client= new WebClient();
+            if (!WebClient.DownloadString("").Contains("1.0.0")
+            {
+                if(MessageBox.Show("New Update available! Do you want to install ist?","Lernmaschine",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
+                { 
+                    try
+                    {
+                        if(File.Exists(@".\SetupLernmaschine.msi"))
+                        {
+                            File.Delete(@".\SetupLernmaschine.msi");
+                            client.DownloadFile("link",@"SetupLernmaschine.zip");
+                            string zipPath = @".\SetupLernmaschine.zip";
+                            string extractPath = @".\";
+                            ZipFile.ExtractToDirectory(zipPath, extractPath);
+
+                            Process process = new Process();
+
+                            process.StartInfo.FileName = "msiexec";
+                            process.StartInfo.Arguments = String.Format("/i SetupLernmaschine.msi");
+                            this.Close();
+                            process.Start();
+                        }
+                    }
+                    catch { }
+                }
+            }
+
+        }
+
         private IModel model;
         private IController controller;
         private Karteikarte karteikarte = new Karteikarte();
