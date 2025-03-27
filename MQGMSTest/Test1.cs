@@ -110,5 +110,27 @@ namespace MQGMSTest
             Assert.AreEqual(expected.ToString(), actual.ToString(), "XML was not created correctly");
 
         }
+
+        [TestMethod]
+        public void model_suchen_Quizfrage()
+        {
+            //Arrange
+            IModel model = new ModelXML();
+            Quizfrage qf = new Quizfrage();
+            Quizfrage ergebnis = new Quizfrage();
+            qf.Frage = "Wie wird ein SqlCommand-Ojekt in C# korrekt definiert";
+            
+            //Act
+            List<Quizfrage> res=model.suchen(qf);
+
+            //Assert
+
+            foreach(Quizfrage q in res)
+            {
+                ergebnis=q;
+            }
+
+            Assert.AreEqual(5, ergebnis.AnzahlAntworten);
+        }
     }
 }

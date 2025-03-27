@@ -13,7 +13,10 @@ namespace Lernmaschine
         private IController controller;
         private Karteikarte karteikarte = new Karteikarte();
         private List<Karteikarte> karteikarten = new List<Karteikarte>();
+        private List<Karteikarte> lernkarteikarten = new List<Karteikarte>();
+        private List<Karteikarte> alleKarteikarten = new List<Karteikarte>();
         private int index = 0;
+        private bool starup = true;
 
         IModel IView.Model { set => model = value; }
         IController IView.Controller { set => controller = value; }
@@ -38,6 +41,9 @@ namespace Lernmaschine
                 karteikarte = value;
                 textBoxVorderseite.Text = karteikarte.Vorderseite;
                 textBoxRueckseite.Text = karteikarte.Rueckseite;
+                comboBoxUnterrichtsfach.Text = karteikarte.Unterrichtsfach;
+                comboBoxThema.Text = karteikarte.Thema;
+                textBoxFach.Text = karteikarte.Fach;
             }
         }
 
@@ -47,7 +53,11 @@ namespace Lernmaschine
             set
             {
                 karteikarten = value;
-                Index = 0;
+                if (buttonNeu.Text!="abbrechen")
+                    Index = 0;
+                comboBoxUnterrichtsfachFuellen();
+                comboBoxThemaFuellen();
+                
             }
 
         }
@@ -63,6 +73,9 @@ namespace Lernmaschine
             {
                 textBoxVorderseite.Enabled = true;
                 textBoxRueckseite.Enabled = true;
+                comboBoxUnterrichtsfach.Enabled = true;
+                comboBoxThema.Enabled = true;
+                textBoxFach.Enabled = true;
                 buttonSpeichern.Text = "speichern";
                 buttonNeu.Text = "abbrechen";
             }
@@ -70,16 +83,21 @@ namespace Lernmaschine
             {
                 Karteikarte.Vorderseite = textBoxVorderseite.Text;
                 Karteikarte.Rueckseite = textBoxRueckseite.Text;
+                Karteikarte.Unterrichtsfach = comboBoxUnterrichtsfach.Text;
+                Karteikarte.Thema = comboBoxThema.Text;
+                Karteikarte.Fach = textBoxFach.Text;
 
                 if (buttonSpeichern.Text == "speichern")
                     controller.einfuegen(Karteikarte);
                 else if (buttonSpeichern.Text == "neuanlegen")
                 {
                     Karteikarte.Karteikartennummer = -1;
+                    Karteikarte.Fach = "1";
                     controller.einfuegen(Karteikarte);
                 }
                 textBoxVorderseite.Enabled = false;
                 textBoxRueckseite.Enabled = false;
+                textBoxFach.Enabled = false;
                 buttonSpeichern.Text = "ändern";
                 buttonNeu.Text = "neu";
 
@@ -88,12 +106,15 @@ namespace Lernmaschine
 
         private void buttonSuchen_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void buttonLoeschen_Click(object sender, EventArgs e)
         {
             controller.loeschen(Karteikarte);
+            comboBoxUnterrichtsfach_SelectedIndexChanged(this,new EventArgs());
+            //comboBoxThema_SelectedIndexChanged(this,new EventArgs());
+
         }
 
         private void buttonAnfang_Click(object sender, EventArgs e)
@@ -126,19 +147,37 @@ namespace Lernmaschine
         {
             Karteikarte.Fach = "1";
             controller.einfuegen(Karteikarte);
-            Index++;
+            if (Index < Karteikarten.Count - 1)
+            {
+                Index++;
+                buttonFalsch.Visible = false;
+                buttonRichtig.Visible = false;
+                buttonRueckseiteZeigen.Visible = true;
+                textBoxRueckseite.Visible = false;
+            }
+            else
+            {
+                Index = 0;
+                radioButtonLesen.Checked = true;
+            }
         }
 
         private void buttonRichtig_Click(object sender, EventArgs e)
         {
-            Karteikarte.Fach=(Convert.ToInt32(Karteikarte.Fach) + 1).ToString();
+            Karteikarte.Fach = (Convert.ToInt32(Karteikarte.Fach) + 1).ToString();
             controller.einfuegen(Karteikarte);
-            if(Index<Karteikarten.Count-1)
+            if (Index < Karteikarten.Count - 1)
+            {
                 Index++;
+                buttonFalsch.Visible = false;
+                buttonRichtig.Visible = false;
+                buttonRueckseiteZeigen.Visible = true;
+                textBoxRueckseite.Visible = false;
+            }
             else
             {
-                Index=0;
-                radioButtonLesen.Checked=true;
+                Index = 0;
+                radioButtonLesen.Checked = true;
             }
         }
 
@@ -146,6 +185,11 @@ namespace Lernmaschine
         {
             if (radioButtonEditieren.Checked)
             {
+                comboBoxUnterrichtsfach.Enabled = true;
+                comboBoxThema.Enabled = true;
+                Karteikarten = alleKarteikarten;
+                textBoxRueckseite.Visible = true;
+
                 buttonAnfang.Visible = true;
                 buttonZurueck.Visible = true;
                 buttonEnde.Visible = true;
@@ -165,6 +209,13 @@ namespace Lernmaschine
         {
             if (radioButtonLernen.Checked)
             {
+                lernkarteikartenLaden();
+
+                comboBoxUnterrichtsfach.Enabled = false;
+                comboBoxThema.Enabled = false;
+
+                textBoxRueckseite.Visible = false;
+
                 buttonAnfang.Visible = false;
                 buttonZurueck.Visible = false;
                 buttonEnde.Visible = false;
@@ -173,19 +224,33 @@ namespace Lernmaschine
                 buttonSpeichern.Visible = false;
                 buttonSuchen.Visible = false;
                 buttonLoeschen.Visible = false;
-                buttonNeu.Visible =false;
+                buttonNeu.Visible = false;
 
-                buttonFalsch.Visible = true;
-                buttonRichtig.Visible = true;
+                buttonRueckseiteZeigen.Visible = true;
+                buttonFalsch.Visible = false;
+                buttonRichtig.Visible = false;
 
                 Index = 0;
             }
+        }
+
+        private void lernkarteikartenLaden()
+        {
+            lernkarteikarten = alleKarteikarten.Where(karteikarte => karteikarte.Unterrichtsfach == comboBoxUnterrichtsfach.Text).ToList();
+            lernkarteikarten = lernkarteikarten.Where(karteikarte => karteikarte.Thema == comboBoxThema.Text).ToList();
+            Karteikarten = lernkarteikarten;
         }
 
         private void radioButtonLesen_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButtonLesen.Checked)
             {
+                Karteikarten = alleKarteikarten;
+                textBoxRueckseite.Visible = true;
+
+                comboBoxUnterrichtsfach.Enabled = true;
+                comboBoxThema.Enabled = true;
+
                 buttonAnfang.Visible = true;
                 buttonZurueck.Visible = true;
                 buttonEnde.Visible = true;
@@ -196,8 +261,11 @@ namespace Lernmaschine
                 buttonLoeschen.Visible = false;
                 buttonNeu.Visible = false;
 
+                buttonRueckseiteZeigen.Visible = false;
                 buttonFalsch.Visible = false;
                 buttonRichtig.Visible = false;
+
+                Index = 0;
             }
         }
 
@@ -208,12 +276,21 @@ namespace Lernmaschine
 
         private void buttonNeu_Click(object sender, EventArgs e)
         {
-            if(buttonNeu.Text != "abbrechen")
+            if (buttonNeu.Text != "abbrechen")
             {
                 textBoxVorderseite.Text = string.Empty;
                 textBoxRueckseite.Text = string.Empty;
+                comboBoxUnterrichtsfach.Text = string.Empty;
+                comboBoxThema.Text = string.Empty;
+                //comboBoxUnterrichtsfachFuellen();
+                //comboBoxThemaFuellen();
+                textBoxFach.Text = string.Empty;
+
                 textBoxVorderseite.Enabled = true;
-                textBoxRueckseite.Enabled=true;
+                textBoxRueckseite.Enabled = true;
+                comboBoxUnterrichtsfach.Enabled = true;
+                comboBoxThema.Enabled = true;
+                textBoxFach.Enabled = true;
                 buttonNeu.Text = "abbrechen";
                 buttonSpeichern.Text = "neuanlegen";
             }
@@ -222,15 +299,88 @@ namespace Lernmaschine
                 buttonNeu.Text = "neu";
                 textBoxVorderseite.Enabled = false;
                 textBoxRueckseite.Enabled = false;
-                if(buttonSpeichern.Text== "neuanlegen")
+                textBoxFach.Enabled = false;
+                if (buttonSpeichern.Text == "neuanlegen")
                     Index = Index;
                 buttonSpeichern.Text = "ändern";
             }
         }
 
+        private void comboBoxThemaFuellen()
+        {
+            //comboBoxThema.Items.Clear();
+            foreach (Karteikarte k in Karteikarten)
+            {
+                bool themaGefunden = false;
+                foreach (string s in comboBoxThema.Items)
+                {
+                    if (s == k.Thema)
+                    {
+                        themaGefunden = true;
+                    }
+                }
+                if (!themaGefunden)
+                {
+                    comboBoxThema.Items.Add(k.Thema);
+                }
+            }
+        }
+
+        private void comboBoxUnterrichtsfachFuellen()
+        {
+            //comboBoxUnterrichtsfach.Items.Clear();
+            foreach (Karteikarte k in Karteikarten)
+            {
+                bool unterrichtsfachGefunden = false;
+                foreach (string s in comboBoxUnterrichtsfach.Items)
+                {
+                    if (s == k.Unterrichtsfach)
+                    {
+                        unterrichtsfachGefunden = true;
+                    }
+                }
+                if (!unterrichtsfachGefunden)
+                {
+                    comboBoxUnterrichtsfach.Items.Add(k.Unterrichtsfach);
+                }
+            }
+        }
+
+        private void buttonRueckseiteZeigen_Click(object sender, EventArgs e)
+        {
+            textBoxRueckseite.Visible = true;
+            buttonRichtig.Visible = true;
+            buttonFalsch.Visible = true;
+            buttonRueckseiteZeigen.Visible = false;
+        }
+
+        private void comboBoxUnterrichtsfach_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //if(buttonNeu.Text=="neu")
+                karteikarten = alleKarteikarten.Where(karteikarte => karteikarte.Unterrichtsfach == comboBoxUnterrichtsfach.Text).ToList();
+            Karteikarten = karteikarten;
+        }
+
+        private void comboBoxThema_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //if(buttonNeu.Text=="neu")
+                karteikarten=alleKarteikarten.Where(karteikarte =>  karteikarte.Thema == comboBoxThema.Text &&
+                                                                    karteikarte.Unterrichtsfach == comboBoxUnterrichtsfach.Text).ToList();
+            Karteikarten= karteikarten;
+        }
+
         void IView.anzeigen(List<Karteikarte> karteikarten)
         {
-            this.Karteikarten = karteikarten;
+            //Karteikarten.Clear();
+            //Karteikarten = karteikarten;
+            alleKarteikarten.Clear();
+            alleKarteikarten = karteikarten;
+            if (starup)
+            {
+                Karteikarten = karteikarten;
+                starup = false;
+            }
+
         }
     }
 }
