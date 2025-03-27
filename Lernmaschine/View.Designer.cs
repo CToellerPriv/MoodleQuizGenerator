@@ -336,7 +336,7 @@
             Controls.Add(textBoxVorderseite);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "View";
-            Text = "Lernmaschine V1.0.5";
+            Text = "Lernmaschine V1.0.6";
             FormClosing += View_FormClosing;
             groupBoxModus.ResumeLayout(false);
             groupBoxModus.PerformLayout();
