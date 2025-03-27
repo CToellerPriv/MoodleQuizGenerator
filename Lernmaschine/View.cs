@@ -21,7 +21,7 @@ namespace Lernmaschine
             WebClient webClient = new WebClient();
             var client= new WebClient();
             MessageBox.Show("Checking for updates");
-            if (!webClient.DownloadString("https://github.com/CToellerPriv/MoodleQuizGenerator/blob/dev/Lernmaschine/Update.txt").Contains("1.0.3"))
+            if (!webClient.DownloadString("https://github.com/CToellerPriv/MoodleQuizGenerator/blob/dev/Lernmaschine/Update.txt").Contains("1.0.4"))
             {
                 
                 if (MessageBox.Show("New Update available! Do you want to install ist?","Lernmaschine",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
@@ -32,11 +32,13 @@ namespace Lernmaschine
                         {
                             File.Delete(@".\SetupLernmaschine.msi");
                         }
-                        client.DownloadFile("https://github.com/CToellerPriv/MoodleQuizGenerator/blob/dev/Lernmaschine/SetupLernmaschine.zip",@"SetupLernmaschine.zip");
+                        client.DownloadFile("https://github.com/CToellerPriv/MoodleQuizGenerator/raw/refs/heads/dev/Lernmaschine/SetupLernmaschine.zip", @"SetupLernmaschine.zip");
+                    
                         string zipPath = @".\SetupLernmaschine.zip";
                         string extractPath = @".\";
+                        MessageBox.Show("zip downloaded!");
                         ZipFile.ExtractToDirectory(zipPath, extractPath);
-
+                        MessageBox.Show("zip extracted!");
                         Process process = new Process();
 
                         process.StartInfo.FileName = "msiexec";
