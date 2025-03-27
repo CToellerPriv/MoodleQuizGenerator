@@ -21,7 +21,7 @@ namespace Lernmaschine
             WebClient webClient = new WebClient();
             var client= new WebClient();
             MessageBox.Show("Checking for updates");
-            if (!webClient.DownloadString("https://github.com/CToellerPriv/MoodleQuizGenerator/blob/dev/Lernmaschine/Update.txt").Contains("1.0.4"))
+            if (!webClient.DownloadString("https://raw.githubusercontent.com/CToellerPriv/MoodleQuizGenerator/refs/heads/dev/Lernmaschine/Update.txt").Contains("1.0.5"))
             {
                 
                 if (MessageBox.Show("New Update available! Do you want to install ist?","Lernmaschine",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
