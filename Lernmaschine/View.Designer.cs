@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(View));
             textBoxVorderseite = new TextBox();
             textBoxRueckseite = new TextBox();
             labelVorderseite = new Label();
@@ -333,8 +334,9 @@
             Controls.Add(labelVorderseite);
             Controls.Add(textBoxRueckseite);
             Controls.Add(textBoxVorderseite);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "View";
-            Text = "Lernmaschine V2.0";
+            Text = "Lernmaschine V1.0.1";
             FormClosing += View_FormClosing;
             groupBoxModus.ResumeLayout(false);
             groupBoxModus.PerformLayout();
