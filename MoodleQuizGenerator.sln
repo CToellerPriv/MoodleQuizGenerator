@@ -15,9 +15,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lernmaschine", "Lernmaschin
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupLaptop", "SetupLaptop\SetupLaptop.vdproj", "{D6301ECE-CCB7-4D86-ABE8-5286FA31DDD4}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupLoeschmich", "SetupLoeschmich\SetupLoeschmich.vdproj", "{6CE69948-2F52-6E66-5BC4-8AB692C207DA}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupLernmaschine", "SetupLoeschmich\SetupLoeschmich.vdproj", "{6CE69948-2F52-6E66-5BC4-8AB692C207DA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deploy", "Deploy", "{EE848F8D-B6F0-4ED0-A6D2-2DA1C8000282}"
+	ProjectSection(SolutionItems) = preProject
+		Version.txt = Version.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
