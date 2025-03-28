@@ -20,7 +20,7 @@ namespace Lernmaschine
         {
             WebClient webClient = new WebClient();
             var client= new WebClient();
-            if (!webClient.DownloadString("https://raw.githubusercontent.com/CToellerPriv/MoodleQuizGenerator/refs/heads/dev/Lernmaschine/Update.txt").Contains("1.0.6"))
+            if (!webClient.DownloadString("https://raw.githubusercontent.com/CToellerPriv/MoodleQuizGenerator/refs/heads/dev/Lernmaschine/Update.txt").Contains("1.0.8"))
             {
                 
                 if (MessageBox.Show("New Update available! Do you want to install ist?","Lernmaschine",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
@@ -39,17 +39,17 @@ namespace Lernmaschine
                         Process process = new Process();
 
                         process.StartInfo.FileName = "msiexec";
+                        //process.StartInfo.UseShellExecute = true;
+                        process.StartInfo.Verb = "runas";
                         process.StartInfo.Arguments = String.Format("/i SetupLernmaschine.msi");
+
                         this.Close();
                         process.Start();
                         
                     }
                     catch { }
                 }
-                else
-                {
-                    MessageBox.Show("Lernmaschine is uptodate!");
-                }
+                
             }
 
         }
