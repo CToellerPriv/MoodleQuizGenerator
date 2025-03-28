@@ -20,7 +20,7 @@ namespace Lernmaschine
         {
             WebClient webClient = new WebClient();
             var client= new WebClient();
-            if (!webClient.DownloadString("https://raw.githubusercontent.com/CToellerPriv/MoodleQuizGenerator/refs/heads/dev/Lernmaschine/Update.txt").Contains("1.0.9"))
+            if (!webClient.DownloadString("https://raw.githubusercontent.com/CToellerPriv/MoodleQuizGenerator/refs/heads/dev/Lernmaschine/Update.txt").Contains("1.0.10"))
             {
                 
                 if (MessageBox.Show("New Update available! Do you want to install it?","Lernmaschine",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
@@ -31,18 +31,18 @@ namespace Lernmaschine
                         {
                             File.Delete(@".\SetupLernmaschine.msi");
                         }
-                        client.DownloadFile("https://github.com/CToellerPriv/MoodleQuizGenerator/raw/refs/heads/dev/Lernmaschine/SetupLernmaschine.zip", @"SetupLernmaschine.zip");
-                    
-                        string zipPath = @".\SetupLernmaschine.zip";
-                        string extractPath = @".\";
-                        MessageBox.Show("Download completed.");
+                        client.DownloadFile("https://github.com/CToellerPriv/MoodleQuizGenerator/raw/refs/heads/dev/Lernmaschine/SetupLernmaschine.zip", Application.CommonAppDataPath+@"\SetupLernmaschine.zip");
+                        MessageBox.Show("Download completed to"+Application.CommonAppDataPath);
+                        string zipPath = Application.CommonAppDataPath + @"\SetupLernmaschine.zip";
+                        string extractPath = Application.CommonAppDataPath + @"\";
+                        
                         ZipFile.ExtractToDirectory(zipPath, extractPath);
                         Process process = new Process();
 
                         process.StartInfo.FileName = "msiexec";
                         //process.StartInfo.UseShellExecute = true;
                         process.StartInfo.Verb = "runas";
-                        process.StartInfo.Arguments = String.Format("/i SetupLernmaschine.msi");
+                        process.StartInfo.Arguments = String.Format("/i "+ Application.CommonAppDataPath + @"\SetupLernmaschine.msi");
 
                         this.Close();
                         process.Start();
