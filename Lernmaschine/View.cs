@@ -20,10 +20,10 @@ namespace Lernmaschine
         {
             WebClient webClient = new WebClient();
             var client= new WebClient();
-            if (!webClient.DownloadString("https://raw.githubusercontent.com/CToellerPriv/MoodleQuizGenerator/refs/heads/dev/Lernmaschine/Update.txt").Contains("1.0.8"))
+            if (!webClient.DownloadString("https://raw.githubusercontent.com/CToellerPriv/MoodleQuizGenerator/refs/heads/dev/Lernmaschine/Update.txt").Contains("1.0.9"))
             {
                 
-                if (MessageBox.Show("New Update available! Do you want to install ist?","Lernmaschine",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
+                if (MessageBox.Show("New Update available! Do you want to install it?","Lernmaschine",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
                 { 
                     try
                     {
@@ -35,6 +35,7 @@ namespace Lernmaschine
                     
                         string zipPath = @".\SetupLernmaschine.zip";
                         string extractPath = @".\";
+                        MessageBox.Show("Download completed.");
                         ZipFile.ExtractToDirectory(zipPath, extractPath);
                         Process process = new Process();
 
