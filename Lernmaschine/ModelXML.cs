@@ -17,13 +17,19 @@ namespace Lernmaschine
 
         public ModelXML()
         {
-            if (!File.Exists(@".\lernmaschine.xml"))
+            string LogPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Lernmaschine";
+
+            if (!Directory.Exists(LogPath))
+            {
+                Directory.CreateDirectory(LogPath);
+            }
+            if (!File.Exists(LogPath+@".\lernmaschine.xml"))
             {
                 doc = new XDocument(new XElement("Karteikarten"));
-                doc.Save(@".\lernmaschine.xml");
+                doc.Save(LogPath + @".\lernmaschine.xml");
             }
             else
-                doc = XDocument.Load(@".\lernmaschine.xml");
+                doc = XDocument.Load(LogPath + @".\lernmaschine.xml");
         }
 
 
