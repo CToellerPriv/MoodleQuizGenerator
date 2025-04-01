@@ -14,10 +14,12 @@ namespace Lernmaschine
         private XDocument doc;
         private Karteikarte karteikarte=new Karteikarte();
         private List<Karteikarte> karteikarten=new List<Karteikarte>();
+        private string LogPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Lernmaschine";
+
 
         public ModelXML()
         {
-            string LogPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Lernmaschine";
+            //string LogPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Lernmaschine";
 
             if (!Directory.Exists(LogPath))
             {
@@ -56,7 +58,7 @@ namespace Lernmaschine
                  new XElement("Vorderseite", karteikarte.Vorderseite),
                  new XElement("Rueckseite", karteikarte.Rueckseite));
             doc.Element("Karteikarten").Add(newElement);
-            doc.Save(@".\lernmaschine.xml");
+            doc.Save(LogPath+@".\lernmaschine.xml");
         }
 
         void IModel.loeschen(Karteikarte karteikarte)
