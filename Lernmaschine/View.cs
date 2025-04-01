@@ -158,7 +158,7 @@ namespace Lernmaschine
         private void buttonLoeschen_Click(object sender, EventArgs e)
         {
             controller.loeschen(Karteikarte);
-            comboBoxUnterrichtsfach_SelectedIndexChanged(this,new EventArgs());
+            //comboBoxUnterrichtsfach_SelectedIndexChanged(this,new EventArgs());
             //comboBoxThema_SelectedIndexChanged(this,new EventArgs());
 
         }
@@ -192,7 +192,7 @@ namespace Lernmaschine
         private void buttonFalsch_Click(object sender, EventArgs e)
         {
             Karteikarte.Fach = "1";
-            controller.einfuegen(Karteikarte);
+            controller.aendern(Karteikarte);
             if (Index < Karteikarten.Count - 1)
             {
                 Index++;
@@ -420,11 +420,15 @@ namespace Lernmaschine
             //Karteikarten.Clear();
             //Karteikarten = karteikarten;
             alleKarteikarten.Clear();
-            alleKarteikarten = karteikarten;
+            alleKarteikarten = new List<Karteikarte>(karteikarten);
             if (starup)
             {
-                Karteikarten = karteikarten;
+                Karteikarten = new List<Karteikarte>(karteikarten);
                 starup = false;
+            }
+            else
+            {
+                Karteikarten = new List<Karteikarte>(karteikarten);
             }
 
         }

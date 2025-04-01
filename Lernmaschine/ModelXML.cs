@@ -50,8 +50,25 @@ namespace Lernmaschine
 
         void IModel.einfuegen(Karteikarte karteikarte)
         {
+            int kartennummer;
+            if(karteikarte.Karteikartennummer==-1)
+            {
+                kartennummer = 1;
+                foreach(var e in doc.Descendants("Karteikarte"))
+                {
+                    if (Convert.ToInt32(e.Attribute("Karteikartennummer").Value)>=kartennummer)
+                    {
+                        kartennummer = Convert.ToInt32(e.Attribute("Karteikartennummer").Value)+1;
+                    }
+                }
+            }
+            else
+            {
+                kartennummer = karteikarte.Karteikartennummer;
+            }
+
             XElement newElement = new XElement("Karteikarte",
-                 new XAttribute("Karteikartennummer", karteikarte.Karteikartennummer),
+                 new XAttribute("Karteikartennummer", kartennummer),
                  new XAttribute("Fach", karteikarte.Fach),
                  new XElement("Unterrichtsfach", karteikarte.Unterrichtsfach),
                  new XElement("Thema", karteikarte.Thema),
@@ -59,11 +76,31 @@ namespace Lernmaschine
                  new XElement("Rueckseite", karteikarte.Rueckseite));
             doc.Element("Karteikarten").Add(newElement);
             doc.Save(LogPath+@".\lernmaschine.xml");
+            List<Karteikarte> erg = (this as IModel).suchen(new Karteikarte());
+            view.anzeigen(erg);
         }
 
         void IModel.loeschen(Karteikarte karteikarte)
         {
-            throw new NotImplementedException();
+            XElement newElement = new XElement("Karteikarte",
+                  new XAttribute("Karteikartennummer", karteikarte.Karteikartennummer),
+                  new XAttribute("Fach", karteikarte.Fach),
+                  new XElement("Unterrichtsfach", karteikarte.Unterrichtsfach),
+                  new XElement("Thema", karteikarte.Thema),
+                  new XElement("Vorderseite", karteikarte.Vorderseite),
+                  new XElement("Rueckseite", karteikarte.Rueckseite));
+            doc.Descendants("Karteikarte").Where(e =>
+                                        e.Attribute("Karteikartennummer").Value == karteikarte.Karteikartennummer.ToString()
+                                    && e.Attribute("Fach").Value == karteikarte.Fach
+                                    && e.Element("Unterrichtsfach").Value == karteikarte.Unterrichtsfach
+                                    && e.Element("Thema").Value== karteikarte.Thema
+                                    && e.Element("Vorderseite").Value== karteikarte.Vorderseite
+                                     && e.Element("Rueckseite").Value== karteikarte.Rueckseite
+                                    ).Remove();
+
+            doc.Save(LogPath + @".\lernmaschine.xml");
+            List<Karteikarte> erg = (this as IModel).suchen(new Karteikarte());
+            view.anzeigen(erg);
         }
 
         List<Karteikarte> IModel.suchen(Karteikarte karteikarte)
