@@ -20,7 +20,7 @@ namespace Lernmaschine
             //Process.Start("C:/xampp/xampp_start.exe");
 
             ApplicationConfiguration.Initialize();
-            model = new ModelSQL();
+            model = new ModelXML();
             view = new View();
             controller = new Controller();
 

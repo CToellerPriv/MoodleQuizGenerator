@@ -50,6 +50,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -190,15 +198,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SetupLernmaschine"
-        "ProductCode" = "8:{EA00EAA8-2E2D-4D9A-893B-28E6007CBC72}"
-        "PackageCode" = "8:{3167122A-008C-4BAD-9F12-4B0F9078BBA6}"
+        "ProductCode" = "8:{9A89393D-482B-42E1-AA0E-FF055DD7F280}"
+        "PackageCode" = "8:{E21D0A06-4B33-456F-B722-B85B2B07F83F}"
         "UpgradeCode" = "8:{4B71351B-E06F-47DC-A82E-F25BBF68663F}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.7"
+        "ProductVersion" = "8:1.0.14"
         "Manufacturer" = "8:2Teachers Soft"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

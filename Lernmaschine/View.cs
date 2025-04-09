@@ -19,37 +19,38 @@ namespace Lernmaschine
         private void checkAutoUpdate()
         {
             WebClient webClient = new WebClient();
-            var client = new WebClient();
-            if (!webClient.DownloadString("https://raw.githubusercontent.com/CToellerPriv/MoodleQuizGenerator/refs/heads/dev/Lernmaschine/Update.txt").Contains("1.0.6"))
+            var client= new WebClient();
+            if (!webClient.DownloadString("https://raw.githubusercontent.com/CToellerPriv/MoodleQuizGenerator/refs/heads/dev/Lernmaschine/Update.txt").Contains("1.0.14"))
             {
-
-                if (MessageBox.Show("New Update available! Do you want to install ist?", "Lernmaschine", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
+                
+                if (MessageBox.Show("New Update available! Do you want to install it?","Lernmaschine",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
+                { 
                     try
                     {
                         if (File.Exists(@".\SetupLernmaschine.msi"))
                         {
                             File.Delete(@".\SetupLernmaschine.msi");
                         }
-                        client.DownloadFile("https://github.com/CToellerPriv/MoodleQuizGenerator/raw/refs/heads/dev/Lernmaschine/SetupLernmaschine.zip", @"SetupLernmaschine.zip");
-
-                        string zipPath = @".\SetupLernmaschine.zip";
-                        string extractPath = @".\";
+                        client.DownloadFile("https://github.com/CToellerPriv/MoodleQuizGenerator/raw/refs/heads/dev/Lernmaschine/SetupLernmaschine.zip", Application.CommonAppDataPath+@"\SetupLernmaschine.zip");
+                        MessageBox.Show("Download completed to"+Application.CommonAppDataPath);
+                        string zipPath = Application.CommonAppDataPath + @"\SetupLernmaschine.zip";
+                        string extractPath = Application.CommonAppDataPath + @"\";
+                        
                         ZipFile.ExtractToDirectory(zipPath, extractPath);
                         Process process = new Process();
 
                         process.StartInfo.FileName = "msiexec";
-                        process.StartInfo.Arguments = String.Format("/i SetupLernmaschine.msi");
+                        //process.StartInfo.UseShellExecute = true;
+                        process.StartInfo.Verb = "runas";
+                        process.StartInfo.Arguments = String.Format("/i "+ Application.CommonAppDataPath + @"\SetupLernmaschine.msi");
+
                         this.Close();
                         process.Start();
 
                     }
                     catch { }
                 }
-                else
-                {
-                    MessageBox.Show("Lernmaschine is uptodate!");
-                }
+                
             }
 
         }
@@ -157,7 +158,7 @@ namespace Lernmaschine
         private void buttonLoeschen_Click(object sender, EventArgs e)
         {
             controller.loeschen(Karteikarte);
-            comboBoxUnterrichtsfach_SelectedIndexChanged(this, new EventArgs());
+            //comboBoxUnterrichtsfach_SelectedIndexChanged(this,new EventArgs());
             //comboBoxThema_SelectedIndexChanged(this,new EventArgs());
 
         }
@@ -191,7 +192,7 @@ namespace Lernmaschine
         private void buttonFalsch_Click(object sender, EventArgs e)
         {
             Karteikarte.Fach = "1";
-            controller.einfuegen(Karteikarte);
+            controller.aendern(Karteikarte);
             if (Index < Karteikarten.Count - 1)
             {
                 Index++;
@@ -409,17 +410,9 @@ namespace Lernmaschine
         private void comboBoxThema_SelectedIndexChanged(object sender, EventArgs e)
         {
             //if(buttonNeu.Text=="neu")
-            karteikarten = alleKarteikarten.Where(karteikarte => karteikarte.Thema == comboBoxThema.Text &&
-                                                                karteikarte.Unterrichtsfach == comboBoxUnterrichtsfach.Text).ToList();
-            Karteikarten = karteikarten;
-        }
-
-        private void buttonImport_Click(object sender, EventArgs e)
-        {
-            if(new OpenFileDialog().ShowDialog() == DialogResult.OK)
-            {
-                controller.
-            }
+                karteikarten=alleKarteikarten.Where(karteikarte =>  karteikarte.Thema == comboBoxThema.Text &&
+                                                                    karteikarte.Unterrichtsfach == comboBoxUnterrichtsfach.Text).ToList();
+            Karteikarten= karteikarten;
         }
 
         void IView.anzeigen(List<Karteikarte> karteikarten)
@@ -427,11 +420,15 @@ namespace Lernmaschine
             //Karteikarten.Clear();
             //Karteikarten = karteikarten;
             alleKarteikarten.Clear();
-            alleKarteikarten = karteikarten;
+            alleKarteikarten = new List<Karteikarte>(karteikarten);
             if (starup)
             {
-                Karteikarten = karteikarten;
+                Karteikarten = new List<Karteikarte>(karteikarten);
                 starup = false;
+            }
+            else
+            {
+                Karteikarten = new List<Karteikarte>(karteikarten);
             }
 
         }

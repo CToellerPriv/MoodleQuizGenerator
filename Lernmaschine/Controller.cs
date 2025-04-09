@@ -11,7 +11,7 @@ namespace Lernmaschine
 
         void IController.aendern(Karteikarte karteikarte)
         {
-            throw new NotImplementedException();
+            model.aendern(karteikarte);
         }
 
         void IController.einfuegen(Karteikarte karteikarte)
