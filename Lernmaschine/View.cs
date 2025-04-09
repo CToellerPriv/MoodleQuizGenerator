@@ -19,12 +19,12 @@ namespace Lernmaschine
         private void checkAutoUpdate()
         {
             WebClient webClient = new WebClient();
-            var client= new WebClient();
+            var client = new WebClient();
             if (!webClient.DownloadString("https://raw.githubusercontent.com/CToellerPriv/MoodleQuizGenerator/refs/heads/dev/Lernmaschine/Update.txt").Contains("1.0.6"))
             {
-                
-                if (MessageBox.Show("New Update available! Do you want to install ist?","Lernmaschine",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
-                { 
+
+                if (MessageBox.Show("New Update available! Do you want to install ist?", "Lernmaschine", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
                     try
                     {
                         if (File.Exists(@".\SetupLernmaschine.msi"))
@@ -32,7 +32,7 @@ namespace Lernmaschine
                             File.Delete(@".\SetupLernmaschine.msi");
                         }
                         client.DownloadFile("https://github.com/CToellerPriv/MoodleQuizGenerator/raw/refs/heads/dev/Lernmaschine/SetupLernmaschine.zip", @"SetupLernmaschine.zip");
-                    
+
                         string zipPath = @".\SetupLernmaschine.zip";
                         string extractPath = @".\";
                         ZipFile.ExtractToDirectory(zipPath, extractPath);
@@ -42,7 +42,7 @@ namespace Lernmaschine
                         process.StartInfo.Arguments = String.Format("/i SetupLernmaschine.msi");
                         this.Close();
                         process.Start();
-                        
+
                     }
                     catch { }
                 }
@@ -98,11 +98,11 @@ namespace Lernmaschine
             set
             {
                 karteikarten = value;
-                if (buttonNeu.Text!="abbrechen")
+                if (buttonNeu.Text != "abbrechen")
                     Index = 0;
                 comboBoxUnterrichtsfachFuellen();
                 comboBoxThemaFuellen();
-                
+
             }
 
         }
@@ -157,7 +157,7 @@ namespace Lernmaschine
         private void buttonLoeschen_Click(object sender, EventArgs e)
         {
             controller.loeschen(Karteikarte);
-            comboBoxUnterrichtsfach_SelectedIndexChanged(this,new EventArgs());
+            comboBoxUnterrichtsfach_SelectedIndexChanged(this, new EventArgs());
             //comboBoxThema_SelectedIndexChanged(this,new EventArgs());
 
         }
@@ -402,16 +402,24 @@ namespace Lernmaschine
         private void comboBoxUnterrichtsfach_SelectedIndexChanged(object sender, EventArgs e)
         {
             //if(buttonNeu.Text=="neu")
-                karteikarten = alleKarteikarten.Where(karteikarte => karteikarte.Unterrichtsfach == comboBoxUnterrichtsfach.Text).ToList();
+            karteikarten = alleKarteikarten.Where(karteikarte => karteikarte.Unterrichtsfach == comboBoxUnterrichtsfach.Text).ToList();
             Karteikarten = karteikarten;
         }
 
         private void comboBoxThema_SelectedIndexChanged(object sender, EventArgs e)
         {
             //if(buttonNeu.Text=="neu")
-                karteikarten=alleKarteikarten.Where(karteikarte =>  karteikarte.Thema == comboBoxThema.Text &&
-                                                                    karteikarte.Unterrichtsfach == comboBoxUnterrichtsfach.Text).ToList();
-            Karteikarten= karteikarten;
+            karteikarten = alleKarteikarten.Where(karteikarte => karteikarte.Thema == comboBoxThema.Text &&
+                                                                karteikarte.Unterrichtsfach == comboBoxUnterrichtsfach.Text).ToList();
+            Karteikarten = karteikarten;
+        }
+
+        private void buttonImport_Click(object sender, EventArgs e)
+        {
+            if(new OpenFileDialog().ShowDialog() == DialogResult.OK)
+            {
+                controller.
+            }
         }
 
         void IView.anzeigen(List<Karteikarte> karteikarten)

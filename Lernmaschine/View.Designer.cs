@@ -54,6 +54,8 @@
             comboBoxUnterrichtsfach = new ComboBox();
             comboBoxThema = new ComboBox();
             buttonRueckseiteZeigen = new Button();
+            buttonImport = new Button();
+            buttonOeffnen = new Button();
             groupBoxModus.SuspendLayout();
             SuspendLayout();
             // 
@@ -98,7 +100,7 @@
             groupBoxModus.Controls.Add(radioButtonLesen);
             groupBoxModus.Controls.Add(radioButtonLernen);
             groupBoxModus.Controls.Add(radioButtonEditieren);
-            groupBoxModus.Location = new Point(13, 432);
+            groupBoxModus.Location = new Point(13, 455);
             groupBoxModus.Name = "groupBoxModus";
             groupBoxModus.Size = new Size(566, 55);
             groupBoxModus.TabIndex = 4;
@@ -214,7 +216,7 @@
             // buttonFalsch
             // 
             buttonFalsch.BackColor = Color.Red;
-            buttonFalsch.Location = new Point(298, 403);
+            buttonFalsch.Location = new Point(298, 426);
             buttonFalsch.Name = "buttonFalsch";
             buttonFalsch.Size = new Size(139, 23);
             buttonFalsch.TabIndex = 12;
@@ -225,7 +227,7 @@
             // buttonRichtig
             // 
             buttonRichtig.BackColor = Color.FromArgb(128, 255, 128);
-            buttonRichtig.Location = new Point(443, 403);
+            buttonRichtig.Location = new Point(443, 426);
             buttonRichtig.Name = "buttonRichtig";
             buttonRichtig.Size = new Size(135, 23);
             buttonRichtig.TabIndex = 13;
@@ -298,7 +300,7 @@
             // 
             // buttonRueckseiteZeigen
             // 
-            buttonRueckseiteZeigen.Location = new Point(13, 403);
+            buttonRueckseiteZeigen.Location = new Point(12, 426);
             buttonRueckseiteZeigen.Name = "buttonRueckseiteZeigen";
             buttonRueckseiteZeigen.Size = new Size(279, 23);
             buttonRueckseiteZeigen.TabIndex = 23;
@@ -307,11 +309,32 @@
             buttonRueckseiteZeigen.Visible = false;
             buttonRueckseiteZeigen.Click += buttonRueckseiteZeigen_Click;
             // 
+            // buttonImport
+            // 
+            buttonImport.Location = new Point(12, 397);
+            buttonImport.Name = "buttonImport";
+            buttonImport.Size = new Size(280, 23);
+            buttonImport.TabIndex = 24;
+            buttonImport.Text = "Import";
+            buttonImport.UseVisualStyleBackColor = true;
+            buttonImport.Click += buttonImport_Click;
+            // 
+            // buttonOeffnen
+            // 
+            buttonOeffnen.Location = new Point(298, 397);
+            buttonOeffnen.Name = "buttonOeffnen";
+            buttonOeffnen.Size = new Size(280, 23);
+            buttonOeffnen.TabIndex = 25;
+            buttonOeffnen.Text = "öffnen";
+            buttonOeffnen.UseVisualStyleBackColor = true;
+            // 
             // View
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(591, 501);
+            ClientSize = new Size(591, 527);
+            Controls.Add(buttonOeffnen);
+            Controls.Add(buttonImport);
             Controls.Add(buttonRueckseiteZeigen);
             Controls.Add(comboBoxThema);
             Controls.Add(comboBoxUnterrichtsfach);
@@ -371,5 +394,7 @@
         private ComboBox comboBoxUnterrichtsfach;
         private ComboBox comboBoxThema;
         private Button buttonRueckseiteZeigen;
+        private Button buttonImport;
+        private Button buttonOeffnen;
     }
 }

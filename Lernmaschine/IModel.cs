@@ -9,5 +9,7 @@
         public void loeschen(Karteikarte karteikarte);
         public void aendern(Karteikarte karteikarte);
         public List<Karteikarte> suchen(Karteikarte karteikarte);
+
+        public void oeffnen(string pfad);
     }
 }

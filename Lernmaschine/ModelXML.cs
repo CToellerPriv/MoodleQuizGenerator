@@ -32,5 +32,10 @@ namespace Lernmaschine
         {
             throw new NotImplementedException();
         }
+
+        void IModel.oeffnen(string pfad)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
