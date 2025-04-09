@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.Security.Cryptography;
 
 namespace Lernmaschine
 {
@@ -19,30 +20,30 @@ namespace Lernmaschine
         private void checkAutoUpdate()
         {
             WebClient webClient = new WebClient();
-            var client= new WebClient();
+            var client = new WebClient();
             if (!webClient.DownloadString("https://raw.githubusercontent.com/CToellerPriv/MoodleQuizGenerator/refs/heads/dev/Lernmaschine/Update.txt").Contains("1.0.14"))
             {
-                
-                if (MessageBox.Show("New Update available! Do you want to install it?","Lernmaschine",MessageBoxButtons.YesNo,MessageBoxIcon.Question)==DialogResult.Yes)
-                { 
+
+                if (MessageBox.Show("New Update available! Do you want to install it?", "Lernmaschine", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
                     try
                     {
                         if (File.Exists(@".\SetupLernmaschine.msi"))
                         {
                             File.Delete(@".\SetupLernmaschine.msi");
                         }
-                        client.DownloadFile("https://github.com/CToellerPriv/MoodleQuizGenerator/raw/refs/heads/dev/Lernmaschine/SetupLernmaschine.zip", Application.CommonAppDataPath+@"\SetupLernmaschine.zip");
-                        MessageBox.Show("Download completed to"+Application.CommonAppDataPath);
+                        client.DownloadFile("https://github.com/CToellerPriv/MoodleQuizGenerator/raw/refs/heads/dev/Lernmaschine/SetupLernmaschine.zip", Application.CommonAppDataPath + @"\SetupLernmaschine.zip");
+                        MessageBox.Show("Download completed to" + Application.CommonAppDataPath);
                         string zipPath = Application.CommonAppDataPath + @"\SetupLernmaschine.zip";
                         string extractPath = Application.CommonAppDataPath + @"\";
-                        
+
                         ZipFile.ExtractToDirectory(zipPath, extractPath);
                         Process process = new Process();
 
                         process.StartInfo.FileName = "msiexec";
                         //process.StartInfo.UseShellExecute = true;
                         process.StartInfo.Verb = "runas";
-                        process.StartInfo.Arguments = String.Format("/i "+ Application.CommonAppDataPath + @"\SetupLernmaschine.msi");
+                        process.StartInfo.Arguments = String.Format("/i " + Application.CommonAppDataPath + @"\SetupLernmaschine.msi");
 
                         this.Close();
                         process.Start();
@@ -50,7 +51,7 @@ namespace Lernmaschine
                     }
                     catch { }
                 }
-                
+
             }
 
         }
@@ -410,9 +411,23 @@ namespace Lernmaschine
         private void comboBoxThema_SelectedIndexChanged(object sender, EventArgs e)
         {
             //if(buttonNeu.Text=="neu")
-                karteikarten=alleKarteikarten.Where(karteikarte =>  karteikarte.Thema == comboBoxThema.Text &&
-                                                                    karteikarte.Unterrichtsfach == comboBoxUnterrichtsfach.Text).ToList();
-            Karteikarten= karteikarten;
+            karteikarten = alleKarteikarten.Where(karteikarte => karteikarte.Thema == comboBoxThema.Text &&
+                                                                karteikarte.Unterrichtsfach == comboBoxUnterrichtsfach.Text).ToList();
+            Karteikarten = karteikarten;
+        }
+
+        private void buttonImport_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void buttonOeffnen_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd=new OpenFileDialog();
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                controller.oeffnen(ofd.FileName);
+            }
         }
 
         void IView.anzeigen(List<Karteikarte> karteikarten)

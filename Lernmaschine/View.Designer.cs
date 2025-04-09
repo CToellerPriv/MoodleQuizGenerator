@@ -327,6 +327,7 @@
             buttonOeffnen.TabIndex = 25;
             buttonOeffnen.Text = "öffnen";
             buttonOeffnen.UseVisualStyleBackColor = true;
+            buttonOeffnen.Click += buttonOeffnen_Click;
             // 
             // View
             // 

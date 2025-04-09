@@ -14,24 +14,24 @@ namespace Lernmaschine
         private XDocument doc;
         private Karteikarte karteikarte=new Karteikarte();
         private List<Karteikarte> karteikarten=new List<Karteikarte>();
-        private string LogPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Lernmaschine";
+        private string LogPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Lernmaschine" + @".\lernmaschine.xml";
 
 
         public ModelXML()
         {
             //string LogPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Lernmaschine";
 
-            if (!Directory.Exists(LogPath))
+            if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Lernmaschine"))
             {
-                Directory.CreateDirectory(LogPath);
+                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Lernmaschine");
             }
-            if (!File.Exists(LogPath+@".\lernmaschine.xml"))
+            if (!File.Exists(LogPath))
             {
                 doc = new XDocument(new XElement("Karteikarten"));
-                doc.Save(LogPath + @".\lernmaschine.xml");
+                doc.Save(LogPath);
             }
             else
-                doc = XDocument.Load(LogPath + @".\lernmaschine.xml");
+                doc = XDocument.Load(LogPath);
         }
 
 
@@ -75,7 +75,7 @@ namespace Lernmaschine
                  new XElement("Vorderseite", karteikarte.Vorderseite),
                  new XElement("Rueckseite", karteikarte.Rueckseite));
             doc.Element("Karteikarten").Add(newElement);
-            doc.Save(LogPath+@".\lernmaschine.xml");
+            doc.Save(LogPath);
             List<Karteikarte> erg = (this as IModel).suchen(new Karteikarte());
             view.anzeigen(erg);
         }
@@ -98,7 +98,7 @@ namespace Lernmaschine
                                      && e.Element("Rueckseite").Value== karteikarte.Rueckseite
                                     ).Remove();
 
-            doc.Save(LogPath + @".\lernmaschine.xml");
+            doc.Save(LogPath);
             List<Karteikarte> erg = (this as IModel).suchen(new Karteikarte());
             view.anzeigen(erg);
         }
@@ -124,7 +124,10 @@ namespace Lernmaschine
 
         void IModel.oeffnen(string pfad)
         {
-            throw new NotImplementedException();
+            doc = XDocument.Load(pfad);
+            LogPath=pfad;
+
+            view.anzeigen((this as IModel).suchen(new Karteikarte()));
         }
     }
 }

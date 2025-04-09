@@ -168,6 +168,11 @@ namespace Lernmaschine
             return true;
 
         }
-#endregion
+
+        void IModel.oeffnen(string pfad)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }

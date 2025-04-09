@@ -24,6 +24,11 @@ namespace Lernmaschine
             model.loeschen(karteikarte);
         }
 
+        void IController.oeffnen(string pfad)
+        {
+            model.oeffnen (pfad);
+        }
+
         List<Karteikarte> IController.suchen(Karteikarte karteikarte)
         {
             throw new NotImplementedException();
