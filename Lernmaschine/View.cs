@@ -247,6 +247,9 @@ namespace Lernmaschine
                 buttonLoeschen.Visible = true;
                 buttonNeu.Visible = true;
 
+                buttonImport.Visible = true;
+                buttonOeffnen.Visible = true;
+
                 buttonFalsch.Visible = false;
                 buttonRichtig.Visible = false;
             }
@@ -272,6 +275,8 @@ namespace Lernmaschine
                 buttonSuchen.Visible = false;
                 buttonLoeschen.Visible = false;
                 buttonNeu.Visible = false;
+                buttonImport.Visible = false;
+                buttonOeffnen.Visible = false;
 
                 buttonRueckseiteZeigen.Visible = true;
                 buttonFalsch.Visible = false;
@@ -302,6 +307,9 @@ namespace Lernmaschine
                 buttonZurueck.Visible = true;
                 buttonEnde.Visible = true;
                 buttonVor.Visible = true;
+
+                buttonImport.Visible = true;
+                buttonOeffnen.Visible = true;
 
                 buttonSpeichern.Visible = false;
                 buttonSuchen.Visible = false;
